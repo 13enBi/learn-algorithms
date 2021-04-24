@@ -1,0 +1,23 @@
+{
+  "name": "leran-algorithms",
+  "version": "1.0.0",
+  "description": "leran-algorithms",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/13enBi/leran-algorithms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/13enBi/leran-algorithms/issues"
+  },
+  "homepage": "https://github.com/13enBi/leran-algorithms#readme",
+  "devDependencies": {
+    "vite": "^2.2.1"
+  }
+}
