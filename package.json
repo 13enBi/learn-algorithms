@@ -1,23 +1,31 @@
 {
-  "name": "leran-algorithms",
-  "version": "1.0.0",
-  "description": "leran-algorithms",
-  "main": "index.js",
-  "scripts": {
-    "dev": "vite"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/13enBi/leran-algorithms.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/13enBi/leran-algorithms/issues"
-  },
-  "homepage": "https://github.com/13enBi/leran-algorithms#readme",
-  "devDependencies": {
-    "vite": "^2.2.1"
-  }
+	"name": "leran-algorithms",
+	"version": "1.0.0",
+	"description": "leran-algorithms",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vite",
+		"test": "jest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/13enBi/leran-algorithms.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/13enBi/leran-algorithms/issues"
+	},
+	"homepage": "https://github.com/13enBi/leran-algorithms#readme",
+	"devDependencies": {
+		"@types/jest": "^26.0.22",
+		"ts-node": "^9.1.1",
+		"typescript": "^4.2.4",
+		"vite": "^2.2.1"
+	},
+	"dependencies": {
+		"jest": "^26.6.3",
+		"ts-jest": "^26.5.5"
+	}
 }

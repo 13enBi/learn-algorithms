@@ -9,10 +9,10 @@ const IS = Symbol();
 export class List<T = any> {
 	protected [IS] = true;
 
-	head: NullishNode;
-	tail: NullishNode;
+	head: NullishNode = null;
+	tail: NullishNode = null;
 
-	static isList(val: unknown): val is List {
+	static isList(val: any): val is List {
 		return val && val[IS];
 	}
 
@@ -43,7 +43,7 @@ export class List<T = any> {
 
 		if (!this.head) {
 			this.head = node;
-		} else {
+		} else if (this.tail) {
 			this.tail.next = node;
 		}
 
