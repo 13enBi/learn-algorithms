@@ -29,8 +29,8 @@ describe('list', () => {
 		expect(list.head?.next?.next).toBe(list.tail);
 	});
 
-    test('preapppend',() => {
-        const list = new List();
+	test('preapppend', () => {
+		const list = new List();
 
 		for (let i = 0; i < 3; i++) {
 			list.preapppend(i);
@@ -40,5 +40,18 @@ describe('list', () => {
 		expect(list.head?.next?.data).toBe(1);
 		expect(list.tail?.data).toBe(0);
 		expect(list.head?.next?.next).toBe(list.tail);
-    })
+	});
+
+	test('iterator', () => {
+		const list = List.of([1, 2, 3, 4]);
+
+		expect([...list]).toEqual([1, 2, 3, 4]);
+	});
+
+	test('include', () => {
+		const list = List.of([1, 2, 3, 4]);
+
+		expect(list.include(2)).toBe(true);
+		expect(list.include(10)).toBe(false);
+	});
 });

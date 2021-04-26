@@ -26,6 +26,14 @@ export class List<T = any> {
 		return list;
 	}
 
+	*[Symbol.iterator](): Iterator<T> {
+		let next: NullishNode = this.head;
+		while (next) {
+			yield next.data;
+			next = next.next;
+		}
+	}
+
 	preapppend(data: T) {
 		const node = new ListNode(data, null, this.head);
 
@@ -51,4 +59,20 @@ export class List<T = any> {
 
 		return this;
 	}
+
+	include(find: T) {
+		for (const data of this) {
+			if (data === find) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	find(index: number) {}
+
+	delete(index: number) {}
+
+	reverse() {}
 }
