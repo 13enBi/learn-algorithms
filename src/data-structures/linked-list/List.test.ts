@@ -54,4 +54,17 @@ describe('list', () => {
 		expect(list.include(2)).toBe(true);
 		expect(list.include(10)).toBe(false);
 	});
+
+	test('reverse', () => {
+		const list = List.of([1, 2, 3, 4]);
+
+		expect([...list.reverse()]).toEqual([4, 3, 2, 1]);
+	});
+
+	test('at', () => {
+		const list = List.of([1, 2, 3, 4]);
+
+		expect(list.at(1)?.data).toBe(2);
+		expect(list.at(-1)?.data).toBe(4);
+	});
 });

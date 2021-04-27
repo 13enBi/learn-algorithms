@@ -12,6 +12,8 @@ export class List<T = any> {
 	head: NullishNode = null;
 	tail: NullishNode = null;
 
+	length = 0;
+
 	static isList(val: any): val is List {
 		return val && val[IS];
 	}
@@ -42,6 +44,7 @@ export class List<T = any> {
 		}
 
 		this.head = node;
+		this.length++;
 
 		return this;
 	}
@@ -56,6 +59,7 @@ export class List<T = any> {
 		}
 
 		this.tail = node;
+		this.length++;
 
 		return this;
 	}
@@ -70,9 +74,37 @@ export class List<T = any> {
 		return false;
 	}
 
-	find(index: number) {}
+	at(index: number) {
+		if (index < 0) index += this.length;
+
+		let current = this.head;
+		while (index-- && current) {
+			current = current.next;
+		}
+
+		return current;
+	}
 
 	delete(index: number) {}
 
-	reverse() {}
+	reverse() {
+		let prev: NullishNode = null;
+		let next: NullishNode = null;
+		let current: NullishNode = this.head;
+
+		while (current) {
+			next = current.next;
+
+			current.next = prev;
+			current.prev = next;
+
+			prev = current;
+			current = next;
+		}
+
+		this.head = prev;
+		this.tail = this.head;
+
+		return this;
+	}
 }
