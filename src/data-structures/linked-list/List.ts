@@ -85,7 +85,25 @@ export class List<T = any> {
 		return current;
 	}
 
-	delete(index: number) {}
+	delete(index: number) {
+		const node = this.at(index);
+
+		if (!node) return node;
+
+		const { next, prev } = node;
+
+		prev && (prev.next = next);
+
+		if (node == this.head) {
+			this.head = next;
+		} else if (node == this.tail) {
+			this.tail = prev;
+		}
+
+		this.length--;
+
+		return node;
+	}
 
 	reverse() {
 		let prev: NullishNode = null;
@@ -104,6 +122,14 @@ export class List<T = any> {
 
 		this.head = prev;
 		this.tail = this.head;
+
+		return this;
+	}
+
+	clear() {
+		this.head = null;
+		this.tail = null;
+		this.length = 0;
 
 		return this;
 	}
