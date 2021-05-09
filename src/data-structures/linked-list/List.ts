@@ -1,4 +1,6 @@
-type NullishNode = null | ListNode;
+import { Nullish } from '../../utils/type';
+
+type NullishNode = Nullish<ListNode>;
 
 class ListNode<T = any> {
 	constructor(public data: T, public prev: NullishNode = null, public next: NullishNode = null) {}
