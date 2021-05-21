@@ -12,5 +12,3 @@ export const curry = <F extends Func>(fn: F) => {
 
 	return curried([]);
 };
-
-curry.bind;
