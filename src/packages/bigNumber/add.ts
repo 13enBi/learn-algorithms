@@ -9,20 +9,18 @@ export const bigNumAdd = (n1: string, n2: string) => {
 	n1 = n1.padStart(l, '0');
 	n2 = n2.padStart(l, '0');
 
-	const a = [...n1];
-
 	let sum = 0;
 	let d = 0;
+	let result = '';
 	for (let i = l - 1; i >= 0; i--) {
 		sum = ~~n1[i] + ~~n2[i] + d;
-		a[i] = (sum % 10) + '';
+		result = (sum % 10) + result;
 		d = +(sum >= 10);
 	}
 
-	n1 = a.join('');
 	if (d) {
-		n1 = d + n1;
+		result = d + result;
 	}
 
-	return n1;
+	return result;
 };
