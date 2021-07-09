@@ -1,4 +1,5 @@
-import { getTag, has, isObject } from '../../utils/type';
+import { bothIsObject } from '../../utils/judge';
+import { getTag, has } from '../../utils/type';
 
 const equalArray = (a: any[], b: any[]) => {
 	const len = a.length;
@@ -43,7 +44,7 @@ export const isEqual = (a: any, b: any) => {
 			return equalArray([...a], [...b]);
 	}
 
-	if (isObject(a) && isObject(b)) {
+	if (bothIsObject(a, b)) {
 		for (const key in a) {
 			if (!has(b, key) || !isEqual(a[key], b[key])) return false;
 		}

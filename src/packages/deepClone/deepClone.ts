@@ -1,10 +1,9 @@
-import { isArray, isObject } from '../../utils/type';
-
-const { entries, fromEntries } = Object;
+import { isArray, isObject } from '../../utils/is';
+import { fromEntriesMap } from '../../utils/object';
 
 export const deepClone = <T = any>(val: T): T =>
 	isArray(val)
 		? (val.map((v) => deepClone(v)) as any)
 		: isObject(val)
-		? fromEntries(entries(val).map(([k, v]) => [k, deepClone(v)]))
+		? fromEntriesMap(val, ([k, v]) => [k, deepClone(v)])
 		: val;
