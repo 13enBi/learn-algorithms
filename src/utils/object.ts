@@ -8,6 +8,6 @@ export const fromEntriesCallback = <T extends Obj>(
 ) => fromEntries(cb(entries(target)));
 
 export const fromEntriesMap = <T extends Obj>(
-	target: T,
+	target: Obj,
 	cb: (payload: [string, any], index: number) => any,
-) => fromEntriesCallback(target, (entries) => entries.map(cb));
+) => fromEntriesCallback(target, (entries) => entries.map(cb)) as T;

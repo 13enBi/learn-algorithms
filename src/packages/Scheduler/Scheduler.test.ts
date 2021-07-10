@@ -1,9 +1,5 @@
+import { timeout } from '../../utils/timer';
 import { Scheduler } from './Scheduler';
-
-const timeout = (time = 2000) =>
-	new Promise((resolve) => {
-		setTimeout(resolve, time);
-	});
 
 describe('Scheduler', () => {
 	test('Scheduler', async () => {

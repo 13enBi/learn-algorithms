@@ -22,7 +22,7 @@ export const {
 	bothIsNumber,
 	bothIsObject,
 	bothIsPromise,
-} = fromEntriesMap(is, ([key, fn]) => [camelizeJoin('both', key), both(fn)]) as Record<
-	string,
-	JudgeFn
->;
+} = fromEntriesMap<Record<string, JudgeFn>>(is, ([key, fn]) => [
+	camelizeJoin('both', key),
+	both(fn),
+]);
