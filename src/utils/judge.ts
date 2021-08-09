@@ -26,3 +26,8 @@ export const {
 	camelizeJoin('both', key),
 	both(fn),
 ]);
+
+export const withDefault =
+	<T>(checker: (value: T) => boolean, defaultVal: T) =>
+	(value: any): T =>
+		checker(value) ? value : defaultVal;
