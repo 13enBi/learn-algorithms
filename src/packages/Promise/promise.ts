@@ -33,6 +33,38 @@ const transPromise =
 	};
 
 class _Promise<T> {
+	static resolve<T>(value: T) {
+		return new _Promise<T>((r) => r(value));
+	}
+
+	static reject(reason: any) {
+		return new _Promise((r, j) => j(reason));
+	}
+
+	static race<T extends _Promise<any>>(promises: T[]): _Promise<T> {
+		return new _Promise<T>((r, j) => {
+			promises.forEach((p) => p.then(r, j));
+		});
+	}
+
+	static all<T extends _Promise<any>>(promises: T[]): _Promise<T[]> {
+		let count = 0;
+		const { length } = promises;
+		const result: T[] = [];
+
+		return new _Promise<T[]>((resolve, reject) => {
+			promises.forEach((p, i) => {
+				p.then((value: T) => {
+					result[i] = value;
+
+					if (count >= length) {
+						resolve(result);
+					}
+				}, reject);
+			});
+		});
+	}
+
 	state = PromiseState.Pennding;
 	result?: T;
 	reason?: any;
