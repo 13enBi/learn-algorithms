@@ -13,6 +13,11 @@ type Reject = (reason: any) => void;
 type Fulfilled<T, R> = (value: T) => R;
 type Catched<R> = (reason: any) => R;
 type Undef = undefined | null | void;
+interface SettledResult<T> {
+	status: 'fulfilled' | 'rejected';
+	value?: T;
+	reason?: any;
+}
 
 const withNoop = withDefault(isFunction, Noop);
 
@@ -32,7 +37,7 @@ const transPromise =
 		return isPromise(ret) ? (ret[isReject ? 'then' : 'catch'] as any)(trans) : trans(ret);
 	};
 
-class _Promise<T> {
+export class _Promise<T> {
 	static resolve<T>(value: T) {
 		return new _Promise<T>((r) => r(value));
 	}
@@ -57,19 +62,49 @@ class _Promise<T> {
 				p.then((value: T) => {
 					result[i] = value;
 
-					if (count >= length) {
-						resolve(result);
-					}
+					++count >= length && resolve(result);
 				}, reject);
 			});
 		});
 	}
 
-	state = PromiseState.Pennding;
-	result?: T;
-	reason?: any;
-	fulfilledCallback: Fulfilled<T, any>[] = [];
-	rejectedCallback: Catched<any>[] = [];
+	static any<T extends _Promise<any>>(promises: T[]): _Promise<T> {
+		let count = 0;
+		const { length } = promises;
+
+		return new _Promise<T>((resolve, reject) => {
+			promises.forEach((p) => {
+				p.then(resolve, (reason) => ++count >= length && reject(reason));
+			});
+		});
+	}
+
+	static allSettled<T extends _Promise<any>>(promises: T[]) {
+		let count = 0;
+		const { length } = promises;
+		const result: SettledResult<T>[] = [];
+
+		return new _Promise<SettledResult<T>[]>((resolve) => {
+			promises.forEach((p, index) => {
+				p.then(
+					(value) => {
+						result[index] = { value, status: 'fulfilled' };
+					},
+					(reason) => {
+						result[index] = { reason, status: 'rejected' };
+					},
+				).finally(() => {
+					++count >= length && resolve(result);
+				});
+			});
+		});
+	}
+
+	private state = PromiseState.Pennding;
+	private result?: T;
+	private reason?: any;
+	private fulfilledCallback: Fulfilled<T, any>[] = [];
+	private rejectedCallback: Catched<any>[] = [];
 
 	constructor(executor: (resolve: Resolve<T>, reject: Reject) => void) {
 		const resolve = wrapMicrotask((value: T) => {
@@ -98,12 +133,9 @@ class _Promise<T> {
 			const resolvePromise = transPromise(resolve, onFulfilled);
 			const rejectPromise = transPromise(reject, onRejected, true);
 
-			if (isFulfilled(this.state)) {
-				return resolvePromise(this.result);
-			}
-			if (isRejected(this.state)) {
-				return rejectPromise(this.reason);
-			}
+			if (isFulfilled(this.state)) return resolvePromise(this.result);
+
+			if (isRejected(this.state)) return rejectPromise(this.reason);
 
 			this.fulfilledCallback.push(resolvePromise);
 
@@ -113,5 +145,12 @@ class _Promise<T> {
 
 	catch<R>(onRejected: Catched<R>) {
 		return this.then(null, onRejected);
+	}
+
+	finally(onfinally?: () => any) {
+		return this.then(
+			(value: T) => (onfinally?.(), value),
+			(reason) => (onfinally?.(), reason),
+		);
 	}
 }
