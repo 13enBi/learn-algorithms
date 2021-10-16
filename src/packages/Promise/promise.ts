@@ -1,3 +1,4 @@
+import { callWithErrorHandler } from '../../utils/error';
 import { Noop, wrapMicrotask } from '../../utils/function';
 import { isFunction } from '../../utils/is';
 import { withDefault } from '../../utils/judge';
@@ -31,10 +32,10 @@ const run = (value: any) => (fn: Function) => fn(value);
 
 const transPromise =
 	<T, R>(trans: Resolve<R> | Reject, callback: Fulfilled<T, R> | Catched<R>, isReject = false) =>
-	(value: any): _Promise<R> => {
+	(value: any) => {
 		const ret = callback(value);
 
-		return isPromise(ret) ? (ret[isReject ? 'then' : 'catch'] as any)(trans) : trans(ret);
+		isPromise(ret) ? (isReject ? ret.catch(trans) : ret.then(trans)) : trans(ret);
 	};
 
 export class _Promise<T> {
@@ -118,11 +119,7 @@ export class _Promise<T> {
 			this.rejectedCallback.forEach(run(this.reason));
 		});
 
-		try {
-			executor(resolve, reject);
-		} catch (error) {
-			reject(error);
-		}
+		callWithErrorHandler(reject, executor, [resolve, reject]);
 	}
 
 	then<R1, R2 = never>(_onFulfilled: Fulfilled<T, R1> | Undef, _onRejected: Catched<R2> | Undef) {
@@ -148,9 +145,11 @@ export class _Promise<T> {
 	}
 
 	finally(onfinally?: () => any) {
-		return this.then(
-			(value: T) => (onfinally?.(), value),
-			(reason) => (onfinally?.(), reason),
-		);
+		return onfinally
+			? this.then(
+					(value: T) => (onfinally(), value),
+					(reason) => (onfinally(), reason),
+			  )
+			: this;
 	}
 }

@@ -1,4 +1,4 @@
-import { isObject } from '../../utils/is';
+import { isObject } from '../../../utils/is';
 
 type Then<R> = R extends Monad<any> ? R : Monad<R>;
 
