@@ -10,3 +10,17 @@ export const isFunction = (val: unknown): val is Function => typeof val === 'fun
 export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
 	return val instanceof Promise && isFunction(val.then) && isFunction(val.catch);
 };
+
+const CTOR_MARK = Symbol();
+const CTOR_CHECKER: any = {
+	get length() {
+		throw CTOR_MARK;
+	},
+};
+export const isConstructor = (target: any) => {
+	try {
+		Reflect.construct(target, CTOR_CHECKER);
+	} catch (error) {
+		return error === CTOR_MARK;
+	}
+};
