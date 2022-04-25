@@ -1,2 +1,2 @@
-# leran-algorithms
-leran-algorithms
+# learn-algorithms
+learn-algorithms

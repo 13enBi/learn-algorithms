@@ -1,7 +1,7 @@
 {
-	"name": "leran-algorithms",
+	"name": "learn-algorithms",
 	"version": "1.0.0",
-	"description": "leran-algorithms",
+	"description": "learn-algorithms",
 	"main": "index.js",
 	"scripts": {
 		"dev": "vite",
@@ -9,15 +9,15 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/13enBi/leran-algorithms.git"
+		"url": "git+https://github.com/13enBi/learn-algorithms.git"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/13enBi/leran-algorithms/issues"
+		"url": "https://github.com/13enBi/learn-algorithms/issues"
 	},
-	"homepage": "https://github.com/13enBi/leran-algorithms#readme",
+	"homepage": "https://github.com/13enBi/learn-algorithms#readme",
 	"devDependencies": {
 		"@types/jest": "^26.0.22",
 		"ts-node": "^9.1.1",
